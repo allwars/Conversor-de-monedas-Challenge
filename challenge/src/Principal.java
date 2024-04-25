@@ -31,7 +31,7 @@ public class Principal {
                     5) Dólar =>> Peso colombiano
                     6) Peso colombiano =>> Dólar
                     7) Salir
-                    
+                    ***********************************************************************************
                     Elija una opción Válida:
                     """);
             int numeroElegido = lectura.nextInt();
@@ -71,7 +71,7 @@ public class Principal {
                     divisa.setCantidadACambiar(cantidad);
                     divisa.setCantidadOrigen(divisaOrigen);
                     divisa.setCantidadDestino(divisaDestino);
-                }if (numeroElegido == 3){
+                }else if (numeroElegido == 3){
                     System.out.println("Elige la cantidad a cambiar");
                     int cantidad = lectura.nextInt();
                     divisa.setDivisaNombreOrigen("USD");
@@ -83,7 +83,7 @@ public class Principal {
                     divisa.setCantidadACambiar(cantidad);
                     divisa.setCantidadOrigen(divisaOrigen);
                     divisa.setCantidadDestino(divisaDestino);
-                }if (numeroElegido == 4){
+                }else if (numeroElegido == 4){
                     System.out.println("Elige la cantidad a cambiar");
                     int cantidad = lectura.nextInt();
                     divisa.setDivisaNombreOrigen("BRL");
@@ -95,7 +95,7 @@ public class Principal {
                     divisa.setCantidadACambiar(cantidad);
                     divisa.setCantidadOrigen(divisaOrigen);
                     divisa.setCantidadDestino(divisaDestino);
-                }if (numeroElegido == 5){
+                }else if (numeroElegido == 5){
                     System.out.println("Elige la cantidad a cambiar");
                     int cantidad = lectura.nextInt();
                     divisa.setDivisaNombreOrigen("USD");
@@ -109,7 +109,7 @@ public class Principal {
                     divisa.setCantidadACambiar(cantidad);
                     divisa.setCantidadOrigen(divisaOrigen);
                     divisa.setCantidadDestino(divisaDestino);
-                }if (numeroElegido == 6){
+                }else if (numeroElegido == 6){
                     System.out.println("Elige la cantidad a cambiar");
                     int cantidad = lectura.nextInt();
                     divisa.setDivisaNombreOrigen("COP");
@@ -121,15 +121,17 @@ public class Principal {
                     divisa.setCantidadACambiar(cantidad);
                     divisa.setCantidadOrigen(divisaOrigen);
                     divisa.setCantidadDestino(divisaDestino);
-                }if (numeroElegido == 7){
+                }else if (numeroElegido == 7){
                     break;
+                }else if (numeroElegido > 7){
+                    System.out.println("No existe esa opción");
                 }
                 double cantidadCambio = divisa.getCantidadACambiar();
                 double cantidadDestino = divisa.getCantidadDestino();
                 double cantidaOrigen = divisa.getCantidadOrigen();
                 double calculo = (cantidadCambio*cantidadDestino)/cantidaOrigen;
 
-                System.out.println("La valor de: "+ cantidadCambio+ " ["+divisaO+"]"+ "corresponde al valor final de =>>> "+ calculo+ " ["+divisaD+"]" );
+                System.out.println("La valor de: "+ cantidadCambio+ " ["+divisaO+"]"+ " corresponde al valor final de =>>> "+ calculo+ " ["+divisaD+"]" );
 
             } catch (Exception  e) {
                 throw new RuntimeException(e);
