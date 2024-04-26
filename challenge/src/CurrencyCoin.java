@@ -1,12 +1,48 @@
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-public class CurrencyCoin {
+public class CurrencyCoin  {
 
     private double cantidadOrigen;
     private double cantidadDestino;
     private double cantidadACambiar;
     private String divisaNombreOrigen;
     private String divisaNombreDestino;
+    private String divisaO ="";
+    private String divisaD ="";
+    private JsonObject req_result;
+    private String  direccion = "https://v6.exchangerate-api.com/v6/84b6f9581c21eee8a0063247/latest/USD";
+
+    public String getDivisaO() {
+        return divisaO;
+    }
+
+    public String getDivisaD() {
+        return divisaD;
+    }
+
+    public JsonObject getReq_result() {
+        return req_result;
+    }
+
+    public void setReq_result(JsonObject req_result) {
+        this.req_result = req_result;
+    }
+    public void setDivisaO(String divisaO) {
+        this.divisaO = divisaO;
+    }
+
+    public void setDivisaD(String divisaD) {
+        this.divisaD = divisaD;
+    }
 
     public String getDivisaNombreOrigen() {
         return divisaNombreOrigen;
@@ -48,45 +84,39 @@ public class CurrencyCoin {
         this.cantidadACambiar = cantidadACambiar;
     }
 
-    String reqCurrency;
+    public CurrencyCoin() throws IOException {
+        URL url = new URL(direccion);
+        HttpURLConnection request = (HttpURLConnection) url.openConnection();
+        request.connect();
 
+        JsonElement root = JsonParser.parseReader(new InputStreamReader((InputStream) request.getContent()));
+        JsonObject jsonobj = root.getAsJsonObject();
 
-    public void CalculoCambioDivisa() {
-        System.out.println((getCantidadACambiar()*getCantidadDestino())/getCantidadOrigen());
+        JsonObject req_result = jsonobj.getAsJsonObject("conversion_rates");
+        setReq_result(req_result);
     }
 
-    /*CurrencyJson cambiarMoneda(String codigoMoneda){
+    public void opciones(int opcion){
+        if(opcion > 7){
+            System.out.println( "No existe esa opción");
+        }
 
-        String  direccion = "https://v6.exchangerate-api.com/v6/84b6f9581c21eee8a0063247/latest/"+ codigoMoneda;
-
-        //String url_str = "https://v6.exchangerate-api.com/v6/84b6f9581c21eee8a0063247/latest/USD";
-            try {
-                URL url = new URL(direccion);
-                HttpURLConnection request = (HttpURLConnection) url.openConnection();
-                request.connect();
+    }
 
 
+    public void CalculoCambioDivisa(double cambio, String divisaOr, String divisaDes) {
+        double divisaOrigen = getReq_result().get(divisaOr).getAsDouble();
+        double divisaDestino = getReq_result().get(divisaDes).getAsDouble();
+        this.setCantidadDestino(divisaDestino);
+        this.setCantidadOrigen(divisaOrigen);
+        this.setCantidadACambiar(cambio);
+        this.setDivisaO(divisaOr);
+        this.setDivisaD(divisaDes);
+        double calculo = (getCantidadACambiar()*getCantidadDestino())/getCantidadOrigen();
 
-                // Convert to JSON
-                //JsonReader jp = new JsonReader();
-                JsonElement root = JsonParser.parseReader(new InputStreamReader((InputStream) request.getContent()));
-                JsonObject jsonobj = root.getAsJsonObject();
+        System.out.println("La valor de: "+ getCantidadACambiar()+ " ["+divisaOr+"]"+ " corresponde al valor final de =>>> "+ calculo+ " ["+divisaDes+"]" );
+    }
 
-// Accessing object
-                JsonObject req_result = jsonobj.getAsJsonObject("conversion_rates");
-                String reqCurrency = req_result.get(codigoMoneda).getAsString();
-                //System.out.println(reqCurrency);
-
-
-            } catch (Exception  e) {
-                throw new RuntimeException(e);
-            }
-        return new Gson().fromJson(jsonobj, CurrencyJson.class);
-
-
-
-
-    }*/
 
 
 }
